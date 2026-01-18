@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pvc
+  name: n1an-postgres-pvc
 spec:
   accessModes:
     - ReadWriteOnce
@@ -14,19 +14,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: n1an-postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: n1an-postgres
   template:
     metadata:
       labels:
-        app: postgres
+        app: n1an-postgres
     spec:
       containers:
-        - name: postgres
+        - name: n1an-postgres
           image: quay.io/fedora/postgresql-16:latest
           ports:
             - containerPort: 5432
@@ -34,17 +34,17 @@ spec:
             - name: POSTGRESQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: db-password
+                  name: n1an-db-password
                   key: username
             - name: POSTGRESQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: db-password
+                  name: n1an-db-password
                   key: password
             - name: POSTGRESQL_DATABASE
               valueFrom:
                 configMapKeyRef:
-                  name: db-config
+                  name: n1an-db-config
                   key: db-name
           volumeMounts:
             - name: postgres-data
@@ -57,11 +57,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: n1an-postgres
 spec:
   type: ClusterIP
   selector:
-    app: postgres
+    app: n1an-postgres
   ports:
     - port: 5432
 ---
@@ -69,7 +69,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: redis-pvc
+  name: n1an-redis-pvc
 spec:
   accessModes:
     - ReadWriteOnce
@@ -81,19 +81,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis
+  name: n1an-redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: redis
+      app: n1an-redis
   template:
     metadata:
       labels:
-        app: redis
+        app: n1an-redis
     spec:
       containers:
-        - name: redis
+        - name: n1an-redis
           image: quay.io/kurs/redis:latest
           ports:
             - containerPort: 6379
@@ -101,24 +101,24 @@ spec:
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: redis-password
+                  name: n1an-redis-password
                   key: password
           volumeMounts:
-            - name: redis-data
+            - name: n1an-redis-data
               mountPath: /var/lib/redis/data
       volumes:
-        - name: redis-data
+        - name: n1an-redis-data
           persistentVolumeClaim:
-            claimName: redis-pvc
+            claimName: n1an-redis-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis
+  name: n1an-redis
 spec:
   type: ClusterIP
   selector:
-    app: redis
+    app: n1an-redis
   ports:
     - port: 6379
 
@@ -127,19 +127,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: n1an-backend
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: backend
+      app: n1an-backend
   template:
     metadata:
       labels:
-        app: backend
+        app: n1an-backend
     spec:
       containers:
-        - name: backend
+        - name: n1an-backend
           image: quay.io/hardo314/golang-backend:latest
           ports:
             - containerPort: 8080
@@ -147,22 +147,22 @@ spec:
             - name: DB_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: db-config
-                  key: db-host
+                  name: n1an-db-config
+                  key: n1an-db-host
             - name: REDIS_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: db-config
-                  key: redis-host
+                  name: n1an-db-config
+                  key: n1an-redis-host
             - name: REDIS_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: db-config
-                  key: redis-port
+                  name: n1an-db-config
+                  key: n1an-redis-port
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: redis-password
+                  name: n1an-redis-password
                   key: password
 ---
 apiVersion: v1
@@ -172,6 +172,6 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: backend
+    app: n1an-backend
   ports:
-    - port: 8080
+    - port: 8:080
