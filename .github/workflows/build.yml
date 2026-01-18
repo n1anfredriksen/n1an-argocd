@@ -1,0 +1,40 @@
+name: Build and push images
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "backend/**"
+      - "frontend/**"
+      - ".github/workflows/**"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6.0.1
+
+    - name: Login to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.GHCR_USERNAME }}
+        password: ${{ secrets.GHCR_TOKEN }}
+
+    - name: Build app container
+      run: |
+        docker build -f backend/Containerfile -t ghcr.io/n1anfredriksen/guestbook:latest ./backend
+        
+
+   
+    - name: Build frontend container
+      run: |
+        docker build -f frontend/Containerfile -t ghcr.io/n1anfredriksen/n1an-frontend ./frontend
+        
+
+    - name: Push containers
+      run: |
+        docker push ghcr.io/rafaelnacho1/guestbook:latest
+        docker push ghcr.io/rafaelnacho1/n1an-frontend:latest
