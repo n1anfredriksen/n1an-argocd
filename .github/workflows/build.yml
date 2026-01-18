@@ -36,5 +36,5 @@ jobs:
 
     - name: Push containers
       run: |
-        docker push ghcr.io/rafaelnacho1/guestbook:latest
-        docker push ghcr.io/rafaelnacho1/n1an-frontend:latest
+        docker push ghcr.io/n1anfredriksen/guestbook:latest
+        docker push ghcr.io/n1anfredriksen/n1an-frontend:latest
