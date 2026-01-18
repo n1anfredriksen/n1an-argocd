@@ -143,11 +143,11 @@ spec:
           image: quay.io/hardo314/golang-backend:latest
           resources:
             limits:
-              cpu:200m
-              memory:256Mi
+              cpu: 200m
+              memory: 256Mi
             requests:
-              cpu:100m
-              memory:128Mi
+              cpu: 100m
+              memory: 128Mi
           ports:
             - containerPort: 8080
           env:
