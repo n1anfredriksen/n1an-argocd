@@ -37,10 +37,13 @@ spec:
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: n1an-argocd:route.openshift.io/Route:grupp3/n1an-frontend
   name: n1an-frontend
+  namespace: grupp3
 spec:
+  port:
+    'targetPort:': 8080
   to:
     kind: Service
     name: n1an-frontend
-  port:
-    targetPort:: 8080
