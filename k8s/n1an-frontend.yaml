@@ -43,7 +43,7 @@ metadata:
   namespace: grupp3
 spec:
   port:
-    'targetPort': 8080
+    targetPort: 8080
   to:
     kind: Service
     name: n1an-frontend
