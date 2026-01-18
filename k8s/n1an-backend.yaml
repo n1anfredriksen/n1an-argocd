@@ -8,7 +8,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 64Mi
+      storage: 1Gi
   storageClassName: lvms-vg1
 ---
 apiVersion: apps/v1
@@ -75,7 +75,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 16Mi
+      storage: 1Gi
   storageClassName: lvms-vg1
 ---
 apiVersion: apps/v1
