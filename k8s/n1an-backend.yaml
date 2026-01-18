@@ -174,4 +174,4 @@ spec:
   selector:
     app: n1an-backend
   ports:
-    - port: 8:080
+    - port: 8080
